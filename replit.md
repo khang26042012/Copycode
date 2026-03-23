@@ -1,3 +1,23 @@
+# Code Storage App
+
+## Overview
+
+A simple code storage and copy web app for ESP micro-controller code snippets. Uses Supabase as the database and is configured for deployment on Render.
+
+## Features
+- Create, edit, delete code snippets
+- Copy button for each snippet (one-click clipboard copy)
+- Language selector (Arduino/C++, C, Python, JavaScript, Plain Text)
+- Search snippets by title or language
+- No character limit on code
+
+## Deployment (Render)
+- Config file: `render.yaml` in the project root
+- Set environment variable `SUPABASE_DB_URL` on Render with your Supabase connection string
+- Build command: `pnpm install && pnpm --filter @workspace/api-server run build`
+- Start command: `pnpm --filter @workspace/api-server run start`
+- The API server auto-creates the `snippets` table on startup
+
 # Workspace
 
 ## Overview

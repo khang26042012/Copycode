@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: code-storage-api
+    env: node
+    region: singapore
+    plan: free
+    buildCommand: pnpm install && pnpm --filter @workspace/api-server run build
+    startCommand: pnpm --filter @workspace/api-server run start
+    healthCheckPath: /api/healthz
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: SUPABASE_DB_URL
+        sync: false
+      - key: PORT
+        value: "10000"

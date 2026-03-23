@@ -1,15 +1,16 @@
 openapi: 3.1.0
 info:
-  # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: Code Storage API
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: snippets
+    description: Code snippet operations
 paths:
   /healthz:
     get:
@@ -24,6 +25,109 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /snippets:
+    get:
+      operationId: listSnippets
+      tags: [snippets]
+      summary: List all snippets
+      responses:
+        "200":
+          description: List of snippets
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Snippet"
+    post:
+      operationId: createSnippet
+      tags: [snippets]
+      summary: Create a new snippet
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateSnippet"
+      responses:
+        "201":
+          description: Created snippet
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Snippet"
+  /snippets/{id}:
+    get:
+      operationId: getSnippet
+      tags: [snippets]
+      summary: Get snippet by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Snippet
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Snippet"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    put:
+      operationId: updateSnippet
+      tags: [snippets]
+      summary: Update a snippet
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateSnippet"
+      responses:
+        "200":
+          description: Updated snippet
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Snippet"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    delete:
+      operationId: deleteSnippet
+      tags: [snippets]
+      summary: Delete a snippet
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
 components:
   schemas:
     HealthStatus:
@@ -33,4 +137,47 @@ components:
           type: string
       required:
         - status
-
+    Snippet:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        code:
+          type: string
+        language:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - title
+        - code
+        - language
+        - createdAt
+        - updatedAt
+    CreateSnippet:
+      type: object
+      properties:
+        title:
+          type: string
+        code:
+          type: string
+        language:
+          type: string
+      required:
+        - title
+        - code
+        - language
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+      required:
+        - error

@@ -1,0 +1,13 @@
+packages:
+  "framer-motion": "For page transitions and interactive micro-animations"
+  "date-fns": "For elegant human-readable date formatting"
+  "lucide-react": "For premium iconography across the application"
+
+images:
+  - path: "artifacts/code-storage/public/images/hero-bg.png"
+    description: "Dark mode abstract geometric mesh background with deep blue and purple neon light leaks, perfect for a modern code editor aesthetic"
+    aspect_ratio: "16:9"
+
+notes:
+  - Using generated API hooks from @workspace/api-client-react
+  - No authentication required for this application
