@@ -12,7 +12,12 @@ if (!connectionString) {
   );
 }
 
-export const pool = new Pool({ connectionString });
+const isSupabase = connectionString.includes("supabase.co");
+
+export const pool = new Pool({
+  connectionString,
+  ssl: isSupabase ? { rejectUnauthorized: false } : undefined,
+});
 export const db = drizzle(pool, { schema });
 
 export * from "./schema";
